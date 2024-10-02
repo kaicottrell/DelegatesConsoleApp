@@ -3,28 +3,30 @@
 /// Code sourced from the Pluralsight course "C# Events, Delegates, and Lambdas" by Dan Wahlin
 /// </summary>
 
-//var del1 = new WorkPerformedHandler(WorkPerformed1);
-//var del2 = new WorkPerformedHandler(WorkPerformed2);
-//del1+=del2; //Combines the two delegates into one delegate, allowing for two functions to be called at once
-//Invokes the delegate, but is called like a function. Dumps the data from the pipeline (delgate) into the endpoint called WorkPerformed1
-//int finalHours = del1(10, WorkType.Golf);
-var worker = new Worker();
+///<summary>
+/// Event handler for the WorkPerformed event
+/// </summary>
+static void Worker_WorkPerformed(object? sender, WorkPerformedEventArgs e)
+{
+    Console.WriteLine($"Hours worked: {e.Hours}, Work Type: {e.WorkType}");
+}
+///<summary>
+/// Event handler for the WorkCompleted event
+/// </summary>
+static void Worker_WorkCompleted(object? sender, EventArgs e)
+{
+    Console.WriteLine("Work is done");
+}
 
-//static int WorkPerformed1(int hours, WorkType workType)
-//{
-//    Console.WriteLine($"WorkPerformed1 called: {hours}");
-//    return hours + 1;
-//}
-//static int WorkPerformed2(int hours, WorkType workType)
-//{
-//    Console.WriteLine($"WorkPerformed2 called: {workType}");
-//    return hours + 1;
-//}
-//Delegates are technically classes that inherit from System.MulticastDelegate
-//But why do we use this?
+var worker = new Worker();
+//WorkPerformed is the event, EventHandler is the delegate provided by .net, WorkerPerformedEventArgs are our custom values,Worker_WorkPerformed is the event handler
+worker.WorkPerformed += new EventHandler<WorkPerformedEventArgs>(Worker_WorkPerformed);
+worker.WorkCompleted += new EventHandler(Worker_WorkCompleted);
+worker.DoWork(8, WorkType.GenerateReports);
 public enum WorkType
 {
     GoToMeetings,
     Golf,
     GenerateReports
 }
+

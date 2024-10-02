@@ -1,8 +1,8 @@
-﻿public delegate int WorkPerformedHandler(int hours, WorkType workType);
+﻿//public delegate int WorkPerformedHandler(int hours, WorkType workType);
 
 public class Worker
 {
-    public event WorkPerformedHandler? WorkPerformed;
+    public event EventHandler<WorkPerformedEventArgs>? WorkPerformed;
     //Built in delegate that takes in an object and an EventArgs object
     public event EventHandler? WorkCompleted;
 
@@ -20,7 +20,7 @@ public class Worker
     protected virtual void OnWorkPerformed(int hours, WorkType workType)
     {
         //If there are any subscribers to the event, invoke the event
-        WorkPerformed?.Invoke(hours, workType);
+        WorkPerformed?.Invoke(this, new WorkPerformedEventArgs(hours, workType));
     }
     /// <summary>
     /// Lets subscribers know that the work has been completed
