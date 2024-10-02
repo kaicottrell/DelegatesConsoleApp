@@ -20,8 +20,9 @@ static void Worker_WorkCompleted(object? sender, EventArgs e)
 
 var worker = new Worker();
 //WorkPerformed is the event, EventHandler is the delegate provided by .net, WorkerPerformedEventArgs are our custom values,Worker_WorkPerformed is the event handler
-worker.WorkPerformed += new EventHandler<WorkPerformedEventArgs>(Worker_WorkPerformed);
-worker.WorkCompleted += new EventHandler(Worker_WorkCompleted);
+//Delegate Inference: 
+worker.WorkPerformed += Worker_WorkPerformed;
+worker.WorkCompleted += Worker_WorkCompleted;
 worker.DoWork(8, WorkType.GenerateReports);
 public enum WorkType
 {
